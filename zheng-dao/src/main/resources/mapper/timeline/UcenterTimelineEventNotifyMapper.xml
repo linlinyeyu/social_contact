@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zheng.timeline.dao.mapper.UcenterTimelineEventNotifyMapper">
+  <resultMap id="BaseResultMap" type="com.zheng.timeline.dao.model.UcenterTimelineEventNotify">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="timeline_id" jdbcType="INTEGER" property="timelineId" />
+    <result column="user_uuid" jdbcType="VARCHAR" property="userUuid" />
+    <result column="target_uuid" jdbcType="VARCHAR" property="targetUuid" />
+    <result column="event_id" jdbcType="INTEGER" property="eventId" />
+    <result column="is_read" jdbcType="BIT" property="isRead" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="read_time" jdbcType="BIGINT" property="readTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, timeline_id, user_uuid, target_uuid, event_id, is_read, create_time, read_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ucenter_timeline_event_notify
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from ucenter_timeline_event_notify
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zheng.timeline.dao.model.UcenterTimelineEventNotify">
+    insert into ucenter_timeline_event_notify (id, timeline_id, user_uuid, 
+      target_uuid, event_id, is_read, 
+      create_time, read_time)
+    values (#{id,jdbcType=INTEGER}, #{timelineId,jdbcType=INTEGER}, #{userUuid,jdbcType=VARCHAR}, 
+      #{targetUuid,jdbcType=VARCHAR}, #{eventId,jdbcType=INTEGER}, #{isRead,jdbcType=BIT}, 
+      #{createTime,jdbcType=BIGINT}, #{readTime,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zheng.timeline.dao.model.UcenterTimelineEventNotify">
+    insert into ucenter_timeline_event_notify
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="timelineId != null">
+        timeline_id,
+      </if>
+      <if test="userUuid != null">
+        user_uuid,
+      </if>
+      <if test="targetUuid != null">
+        target_uuid,
+      </if>
+      <if test="eventId != null">
+        event_id,
+      </if>
+      <if test="isRead != null">
+        is_read,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="readTime != null">
+        read_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="timelineId != null">
+        #{timelineId,jdbcType=INTEGER},
+      </if>
+      <if test="userUuid != null">
+        #{userUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="targetUuid != null">
+        #{targetUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="eventId != null">
+        #{eventId,jdbcType=INTEGER},
+      </if>
+      <if test="isRead != null">
+        #{isRead,jdbcType=BIT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="readTime != null">
+        #{readTime,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zheng.timeline.dao.model.UcenterTimelineEventNotify">
+    update ucenter_timeline_event_notify
+    <set>
+      <if test="timelineId != null">
+        timeline_id = #{timelineId,jdbcType=INTEGER},
+      </if>
+      <if test="userUuid != null">
+        user_uuid = #{userUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="targetUuid != null">
+        target_uuid = #{targetUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="eventId != null">
+        event_id = #{eventId,jdbcType=INTEGER},
+      </if>
+      <if test="isRead != null">
+        is_read = #{isRead,jdbcType=BIT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="readTime != null">
+        read_time = #{readTime,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zheng.timeline.dao.model.UcenterTimelineEventNotify">
+    update ucenter_timeline_event_notify
+    set timeline_id = #{timelineId,jdbcType=INTEGER},
+      user_uuid = #{userUuid,jdbcType=VARCHAR},
+      target_uuid = #{targetUuid,jdbcType=VARCHAR},
+      event_id = #{eventId,jdbcType=INTEGER},
+      is_read = #{isRead,jdbcType=BIT},
+      create_time = #{createTime,jdbcType=BIGINT},
+      read_time = #{readTime,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
+
+  <insert id="insertTimelineEventNotifys" >
+    insert into ucenter_timeline_event_notify
+    (timeline_id, user_uuid, target_uuid, event_id, is_read, create_time)
+    values
+     <foreach collection="list" separator="," item="item">
+       (#{item.timelineId}, #{item.userUuid}, #{item.targetUuid}, #{item.eventId}, #{item.isRead}, #{item.createTime})
+     </foreach>
+
+  </insert>
+
+  <delete id="deleteByEventId" parameterType="int">
+    delete from ucenter_timeline_event_notify where event_id = #{eventId};
+  </delete>
+
+  <select id="selectCountByUuid" parameterType="string" resultType="int">
+    select count(1) from ucenter_timeline_event_notify where target_uuid = #{uuid} and is_read = 0
+  </select>
+
+  <select id="selectUsersNotifies" parameterType="string" resultType="map">
+    select ten.id,ten.timeline_id,ten.event_id,ten.is_read,
+    ute.user_uuid,ute.target_uuid, ute.text,ute.event_type,ute.create_time
+    from ucenter_timeline_event_notify ten
+    inner join ucenter_timeline_event ute on ute.id = ten.event_id
+    where ten.target_uuid = #{uuid}
+    order by ten.create_time desc
+  </select>
+
+  <update id="removeAllUnreadNotify" parameterType="string">
+    update ucenter_timeline_event_notify set is_read = 1 where is_read = 0 and target_uuid = #{uuid}
+  </update>
+</mapper>

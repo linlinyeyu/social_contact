@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zheng.message.dao.mapper.MessageMapper">
+  <resultMap id="BaseResultMap" type="com.zheng.message.dao.model.Message">
+    <id column="message_id" jdbcType="INTEGER" property="messageId" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="action_id" jdbcType="SMALLINT" property="actionId" />
+    <result column="action_params" jdbcType="VARCHAR" property="actionParams" />
+    <result column="platform" jdbcType="VARCHAR" property="platform" />
+    <result column="message_type" jdbcType="SMALLINT" property="messageType" />
+    <result column="is_send" jdbcType="BIT" property="isSend" />
+    <result column="target_type" jdbcType="SMALLINT" property="targetType" />
+    <result column="send_time" jdbcType="BIGINT" property="sendTime" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="is_show" jdbcType="BIT" property="isShow" />
+    <result column="sender_type" jdbcType="SMALLINT" property="senderType" />
+    <result column="admin_id" jdbcType="INTEGER" property="adminId" />
+    <result column="admin_name" jdbcType="VARCHAR" property="adminName" />
+    <result column="relation_type" jdbcType="TINYINT" property="relationType" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    message_id, title, content, action_id, action_params, platform, message_type, is_send, 
+    target_type, send_time, create_time, is_show, sender_type, admin_id, admin_name, 
+    relation_type
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from message
+    where message_id = #{messageId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from message
+    where message_id = #{messageId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zheng.message.dao.model.Message">
+    <selectKey keyProperty="messageId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into message (title, content, action_id, 
+      action_params, platform, message_type, 
+      is_send, target_type, send_time, 
+      create_time, is_show, sender_type, 
+      admin_id, admin_name, relation_type
+      )
+    values (#{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{actionId,jdbcType=SMALLINT}, 
+      #{actionParams,jdbcType=VARCHAR}, #{platform,jdbcType=VARCHAR}, #{messageType,jdbcType=SMALLINT}, 
+      #{isSend,jdbcType=BIT}, #{targetType,jdbcType=SMALLINT}, #{sendTime,jdbcType=BIGINT}, 
+      #{createTime,jdbcType=BIGINT}, #{isShow,jdbcType=BIT}, #{senderType,jdbcType=SMALLINT}, 
+      #{adminId,jdbcType=INTEGER}, #{adminName,jdbcType=VARCHAR}, #{relationType,jdbcType=TINYINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zheng.message.dao.model.Message">
+    <selectKey keyProperty="messageId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into message
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="title != null">
+        title,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="actionId != null">
+        action_id,
+      </if>
+      <if test="actionParams != null">
+        action_params,
+      </if>
+      <if test="platform != null">
+        platform,
+      </if>
+      <if test="messageType != null">
+        message_type,
+      </if>
+      <if test="isSend != null">
+        is_send,
+      </if>
+      <if test="targetType != null">
+        target_type,
+      </if>
+      <if test="sendTime != null">
+        send_time,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="isShow != null">
+        is_show,
+      </if>
+      <if test="senderType != null">
+        sender_type,
+      </if>
+      <if test="adminId != null">
+        admin_id,
+      </if>
+      <if test="adminName != null">
+        admin_name,
+      </if>
+      <if test="relationType != null">
+        relation_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="actionId != null">
+        #{actionId,jdbcType=SMALLINT},
+      </if>
+      <if test="actionParams != null">
+        #{actionParams,jdbcType=VARCHAR},
+      </if>
+      <if test="platform != null">
+        #{platform,jdbcType=VARCHAR},
+      </if>
+      <if test="messageType != null">
+        #{messageType,jdbcType=SMALLINT},
+      </if>
+      <if test="isSend != null">
+        #{isSend,jdbcType=BIT},
+      </if>
+      <if test="targetType != null">
+        #{targetType,jdbcType=SMALLINT},
+      </if>
+      <if test="sendTime != null">
+        #{sendTime,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="isShow != null">
+        #{isShow,jdbcType=BIT},
+      </if>
+      <if test="senderType != null">
+        #{senderType,jdbcType=SMALLINT},
+      </if>
+      <if test="adminId != null">
+        #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="adminName != null">
+        #{adminName,jdbcType=VARCHAR},
+      </if>
+      <if test="relationType != null">
+        #{relationType,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zheng.message.dao.model.Message">
+    update message
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="actionId != null">
+        action_id = #{actionId,jdbcType=SMALLINT},
+      </if>
+      <if test="actionParams != null">
+        action_params = #{actionParams,jdbcType=VARCHAR},
+      </if>
+      <if test="platform != null">
+        platform = #{platform,jdbcType=VARCHAR},
+      </if>
+      <if test="messageType != null">
+        message_type = #{messageType,jdbcType=SMALLINT},
+      </if>
+      <if test="isSend != null">
+        is_send = #{isSend,jdbcType=BIT},
+      </if>
+      <if test="targetType != null">
+        target_type = #{targetType,jdbcType=SMALLINT},
+      </if>
+      <if test="sendTime != null">
+        send_time = #{sendTime,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="isShow != null">
+        is_show = #{isShow,jdbcType=BIT},
+      </if>
+      <if test="senderType != null">
+        sender_type = #{senderType,jdbcType=SMALLINT},
+      </if>
+      <if test="adminId != null">
+        admin_id = #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="adminName != null">
+        admin_name = #{adminName,jdbcType=VARCHAR},
+      </if>
+      <if test="relationType != null">
+        relation_type = #{relationType,jdbcType=TINYINT},
+      </if>
+    </set>
+    where message_id = #{messageId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zheng.message.dao.model.Message">
+    update message
+    set title = #{title,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      action_id = #{actionId,jdbcType=SMALLINT},
+      action_params = #{actionParams,jdbcType=VARCHAR},
+      platform = #{platform,jdbcType=VARCHAR},
+      message_type = #{messageType,jdbcType=SMALLINT},
+      is_send = #{isSend,jdbcType=BIT},
+      target_type = #{targetType,jdbcType=SMALLINT},
+      send_time = #{sendTime,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=BIGINT},
+      is_show = #{isShow,jdbcType=BIT},
+      sender_type = #{senderType,jdbcType=SMALLINT},
+      admin_id = #{adminId,jdbcType=INTEGER},
+      admin_name = #{adminName,jdbcType=VARCHAR},
+      relation_type = #{relationType,jdbcType=TINYINT}
+    where message_id = #{messageId,jdbcType=INTEGER}
+  </update>
+  <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
+</mapper>

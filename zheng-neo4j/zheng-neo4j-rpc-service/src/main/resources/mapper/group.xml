@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zheng.neo4j.dao.mapper.Neo4jGroupMapper">
+    <insert id="createGroup" parameterType="com.zheng.neo4j.dao.domain.Neo4jGroup">
+        create (g:Group{tid:#{tid},uuid:#{uuid}})
+    </insert>
+    
+    <insert id="addGroupRelation" parameterType="com.zheng.neo4j.dao.domain.Neo4jGroup">
+        match (u:User),(g:Group) where u.uuid in 
+        <foreach collection="members" index="index" item="id" open="[" separator="," close="]">
+            #{id}
+        </foreach>
+        and g.tid = #{tid} and g.uuid = #{uuid}
+        merge (u)-[r:Member]->(g)
+    </insert>
+
+    <delete id="deleteGroupRelation">
+        match (u:User)-[r]-(g:Group) where u.uuid = #{members} and g.uuid = #{uuid} and g.tid = #{tid}
+        delete r
+    </delete>
+
+    <delete id="removeGroup" parameterType="java.lang.String">
+        match (u:User)-[r:Member]-(g:Group) where g.tid=#{tid} delete r,g
+    </delete>
+
+    <select id="FamilyCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+        match (u1:User)-[:Member]-(g:Group)-[:Member]-(u:User),
+        (u1)-[r:Relation]-(u)
+        where g.tid= #{tid} and r.relation_type = 1
+        return count(distinct r)
+    </select>
+
+    <select id="getGroupbyUser" resultType="java.lang.String">
+        match (u:User)-[:Member]-(g:Group)-[:Member]-(u1:User) where u.uuid = #{uuid} and u1.uuid = #{fuuid} return g.tid
+    </select>
+</mapper>

@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zheng.user.dao.mapper.UcenterGroupRelationMapper">
+  <resultMap id="BaseResultMap" type="com.zheng.user.dao.model.UcenterGroupRelation">
+    <id column="group_relation_id" jdbcType="INTEGER" property="groupRelationId" />
+    <result column="group_yx_id" jdbcType="VARCHAR" property="groupYxId" />
+    <result column="uuid" jdbcType="VARCHAR" property="uuid" />
+    <result column="is_member" jdbcType="TINYINT" property="isMember" />
+    <result column="is_owner" jdbcType="TINYINT" property="isOwner" />
+    <result column="alias" jdbcType="VARCHAR" property="alias"/>
+    <result column="is_top" jdbcType="TINYINT" property="isTop"/>
+    <result column="is_add_mail" jdbcType="TINYINT" property="isAddMail"/>
+    <result column="is_mute_team" jdbcType="TINYINT" property="isMuteTeam"/>
+  </resultMap>
+  <sql id="Base_Column_List">
+    group_relation_id, group_yx_id, uuid, is_member, is_owner,alias,is_top,is_add_mail,is_mute_team
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ucenter_group_relation
+    where group_relation_id = #{groupRelationId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from ucenter_group_relation
+    where group_relation_id = #{groupRelationId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zheng.user.dao.model.UcenterGroupRelation">
+    <selectKey keyProperty="groupRelationId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into ucenter_group_relation (group_yx_id, uuid, is_member, 
+      is_owner,alias,is_top,is_add_mail,is_mute_team)
+    values (#{groupYxId,jdbcType=VARCHAR}, #{uuid,jdbcType=VARCHAR}, #{isMember,jdbcType=TINYINT},
+      #{isOwner,jdbcType=TINYINT},#{alias,jdbcType=VARCHAR},#{isTop,jdbcType=TINYINT},#{isAddMail,jdbcType=TINYINT},
+    #{isMuteTeam,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zheng.user.dao.model.UcenterGroupRelation">
+    <selectKey keyProperty="groupRelationId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into ucenter_group_relation
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="groupYxId != null">
+        group_yx_id,
+      </if>
+      <if test="uuid != null">
+        uuid,
+      </if>
+      <if test="isMember != null">
+        is_member,
+      </if>
+      <if test="isOwner != null">
+        is_owner,
+      </if>
+      <if test="alias != null">
+        alias,
+      </if>
+      <if test="isTop != null">
+        is_top,
+      </if>
+      <if test="isAddMail != null">
+        is_add_mail,
+      </if>
+      <if test="isMuteTeam != null">
+        is_mute_team,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="groupYxId != null">
+        #{groupYxId,jdbcType=VARCHAR},
+      </if>
+      <if test="uuid != null">
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="isMember != null">
+        #{isMember,jdbcType=TINYINT},
+      </if>
+      <if test="isOwner != null">
+        #{isOwner,jdbcType=TINYINT},
+      </if>
+      <if test="alias != null">
+        #{alias,jdbcType=VARCHAR},
+      </if>
+      <if test="isTop != null">
+        #{isTop,jdbcType=TINYINT},
+      </if>
+      <if test="isAddMail != null">
+        #{isAddMail,jdbcType=TINYINT},
+      </if>
+      <if test="isMuteTeam != null">
+        #{isMuteTeam,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zheng.user.dao.model.UcenterGroupRelation">
+    update ucenter_group_relation
+    <set>
+      <if test="groupYxId != null">
+        group_yx_id = #{groupYxId,jdbcType=VARCHAR},
+      </if>
+      <if test="uuid != null">
+        uuid = #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="isMember != null">
+        is_member = #{isMember,jdbcType=TINYINT},
+      </if>
+      <if test="isOwner != null">
+        is_owner = #{isOwner,jdbcType=TINYINT},
+      </if>
+      <if test="alias != null">
+        alias = #{alias,jdbcType=VARCHAR},
+      </if>
+      <if test="isTop != null">
+        is_top = #{isTop,jdbcType=TINYINT},
+      </if>
+      <if test="isAddMail != null">
+        is_add_mail = #{isAddMail,jdbcType=TINYINT},
+      </if>
+      <if test="isMuteTeam != null">
+        is_mute_team = #{isMuteTeam,jdbcType=TINYINT},
+      </if>
+    </set>
+    where group_relation_id = #{groupRelationId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zheng.user.dao.model.UcenterGroupRelation">
+    update ucenter_group_relation
+    set group_yx_id = #{groupYxId,jdbcType=VARCHAR},
+      uuid = #{uuid,jdbcType=VARCHAR},
+      is_member = #{isMember,jdbcType=TINYINT},
+      is_owner = #{isOwner,jdbcType=TINYINT},
+      alias = #{alias,jdbcType=VARCHAR},
+      is_top = #{isTop,jdbcType=TINYINT},
+      is_add_mail = #{isAddMail,jdbcType=TINYINT},
+      is_mute_team = #{isMuteTeam,jdbcType=TINYINT}
+    where group_relation_id = #{groupRelationId,jdbcType=INTEGER}
+  </update>
+  <insert id="insertBatch" parameterType="java.util.List">
+    insert INTO ucenter_group_relation (group_yx_id,uuid,is_member,is_owner,alias) VALUES
+    <foreach collection="list" index="index" item="userRelation" open="(" separator="),(" close=")">
+      #{userRelation.groupYxId},
+      #{userRelation.uuid},
+      #{userRelation.isMember},
+      #{userRelation.isOwner},
+      #{userRelation.alias}
+    </foreach>
+  </insert>
+
+  <delete id="deleteByTidAndUuid">
+    delete from ucenter_group_relation where uuid = #{uuid} and group_yx_id = #{tid}
+  </delete>
+  <delete id="deleteByTid" parameterType="java.lang.String">
+    delete from ucenter_group_relation where group_yx_id = #{tid}
+  </delete>
+
+  <update id="updateOwner">
+    update ucenter_group_relation set is_member = 0,is_owner = 0 where group_yx_id = #{tid} and uuid = #{owner};
+    update ucenter_group_relation set is_member = 1,is_owner = 1 where uuid = #{new_owner} and group_yx_id = #{tid};
+  </update>
+
+  <update id="updateByTidAndUuid" parameterType="com.zheng.user.dao.model.UcenterGroupRelation">
+    update ucenter_group_relation
+    <set>
+      <if test="groupYxId != null">
+        group_yx_id = #{groupYxId,jdbcType=VARCHAR},
+      </if>
+      <if test="uuid != null">
+        uuid = #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="isMember != null">
+        is_member = #{isMember,jdbcType=TINYINT},
+      </if>
+      <if test="isOwner != null">
+        is_owner = #{isOwner,jdbcType=TINYINT},
+      </if>
+      <if test="alias != null">
+        alias = #{alias,jdbcType=VARCHAR},
+      </if>
+      <if test="isTop != null">
+        is_top = #{isTop,jdbcType=TINYINT},
+      </if>
+      <if test="isAddMail != null">
+        is_add_mail = #{isAddMail,jdbcType=TINYINT},
+      </if>
+      <if test="isMuteTeam != null">
+        is_mute_team = #{isMuteTeam,jdbcType=TINYINT},
+      </if>
+    </set>
+    where group_yx_id = #{groupYxId} and uuid = #{uuid}
+  </update>
+  <select id="countGroupMember" parameterType="java.lang.String">
+    select count(group_relation_id) as members from ucenter_group_relation where group_yx_id = #{tid}
+  </select>
+
+  <select id="selectByUuidAndTid" resultType="com.zheng.user.dao.model.UcenterGroupRelation">
+    select
+    <include refid="Base_Column_List" />
+    from ucenter_group_relation
+    where group_yx_id = #{tid} and uuid = #{uuid}
+  </select>
+  <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
+</mapper>

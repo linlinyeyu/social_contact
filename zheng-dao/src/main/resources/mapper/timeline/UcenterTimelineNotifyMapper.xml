@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zheng.timeline.dao.mapper.UcenterTimelineNotifyMapper">
+  <resultMap id="BaseResultMap" type="com.zheng.timeline.dao.model.UcenterTimelineNotify">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_uuid" jdbcType="VARCHAR" property="userUuid" />
+    <result column="friend_uuid" jdbcType="VARCHAR" property="friendUuid" />
+    <result column="timeline_id" jdbcType="INTEGER" property="timelineId" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="publish_time" jdbcType="BIGINT" property="publishTime" />
+    <result column="is_read" jdbcType="BIT" property="isRead" />
+    <result column="read_time" jdbcType="BIGINT" property="readTime" />
+    <result column="relation_type" jdbcType="SMALLINT" property="relationType" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_uuid, friend_uuid, timeline_id, create_time, publish_time, is_read, read_time, 
+    relation_type
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ucenter_timeline_notify
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from ucenter_timeline_notify
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zheng.timeline.dao.model.UcenterTimelineNotify">
+    insert into ucenter_timeline_notify (id, user_uuid, friend_uuid, 
+      timeline_id, create_time, publish_time, 
+      is_read, read_time, relation_type
+      )
+    values (#{id,jdbcType=INTEGER}, #{userUuid,jdbcType=VARCHAR}, #{friendUuid,jdbcType=VARCHAR}, 
+      #{timelineId,jdbcType=INTEGER}, #{createTime,jdbcType=BIGINT}, #{publishTime,jdbcType=BIGINT}, 
+      #{isRead,jdbcType=BIT}, #{readTime,jdbcType=BIGINT}, #{relationType,jdbcType=SMALLINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zheng.timeline.dao.model.UcenterTimelineNotify">
+    insert into ucenter_timeline_notify
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userUuid != null">
+        user_uuid,
+      </if>
+      <if test="friendUuid != null">
+        friend_uuid,
+      </if>
+      <if test="timelineId != null">
+        timeline_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="publishTime != null">
+        publish_time,
+      </if>
+      <if test="isRead != null">
+        is_read,
+      </if>
+      <if test="readTime != null">
+        read_time,
+      </if>
+      <if test="relationType != null">
+        relation_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userUuid != null">
+        #{userUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="friendUuid != null">
+        #{friendUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="timelineId != null">
+        #{timelineId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="publishTime != null">
+        #{publishTime,jdbcType=BIGINT},
+      </if>
+      <if test="isRead != null">
+        #{isRead,jdbcType=BIT},
+      </if>
+      <if test="readTime != null">
+        #{readTime,jdbcType=BIGINT},
+      </if>
+      <if test="relationType != null">
+        #{relationType,jdbcType=SMALLINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zheng.timeline.dao.model.UcenterTimelineNotify">
+    update ucenter_timeline_notify
+    <set>
+      <if test="userUuid != null">
+        user_uuid = #{userUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="friendUuid != null">
+        friend_uuid = #{friendUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="timelineId != null">
+        timeline_id = #{timelineId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="publishTime != null">
+        publish_time = #{publishTime,jdbcType=BIGINT},
+      </if>
+      <if test="isRead != null">
+        is_read = #{isRead,jdbcType=BIT},
+      </if>
+      <if test="readTime != null">
+        read_time = #{readTime,jdbcType=BIGINT},
+      </if>
+      <if test="relationType != null">
+        relation_type = #{relationType,jdbcType=SMALLINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zheng.timeline.dao.model.UcenterTimelineNotify">
+    update ucenter_timeline_notify
+    set user_uuid = #{userUuid,jdbcType=VARCHAR},
+      friend_uuid = #{friendUuid,jdbcType=VARCHAR},
+      timeline_id = #{timelineId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=BIGINT},
+      publish_time = #{publishTime,jdbcType=BIGINT},
+      is_read = #{isRead,jdbcType=BIT},
+      read_time = #{readTime,jdbcType=BIGINT},
+      relation_type = #{relationType,jdbcType=SMALLINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
+
+  <insert id="insertTimelineNotifyList" parameterType="com.zheng.timeline.dao.model.UcenterTimelineNotify">
+    insert into ucenter_timeline_notify (timeline_id, user_uuid, friend_uuid, create_time, relation_type)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.timelineId}, #{item.userUuid},#{item.friendUuid}, #{item.createTime}, #{item.relationType})
+    </foreach>
+  </insert>
+</mapper>

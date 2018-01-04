@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zheng.settings.dao.mapper.SettingsMapper">
+  <resultMap id="BaseResultMap" type="com.zheng.settings.dao.model.Settings">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="setting_key" jdbcType="VARCHAR" property="settingKey" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="update_time" jdbcType="BIGINT" property="updateTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.zheng.settings.dao.model.Settings">
+    <result column="setting_value" jdbcType="LONGVARCHAR" property="settingValue" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, setting_key, create_time, update_time
+  </sql>
+  <sql id="Blob_Column_List">
+    setting_value
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from settings
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from settings
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zheng.settings.dao.model.Settings">
+    insert into settings (id, setting_key, create_time, 
+      update_time, setting_value)
+    values (#{id,jdbcType=INTEGER}, #{settingKey,jdbcType=VARCHAR}, #{createTime,jdbcType=BIGINT}, 
+      #{updateTime,jdbcType=BIGINT}, #{settingValue,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zheng.settings.dao.model.Settings">
+    insert into settings
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="settingKey != null">
+        setting_key,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="settingValue != null">
+        setting_value,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="settingKey != null">
+        #{settingKey,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=BIGINT},
+      </if>
+      <if test="settingValue != null">
+        #{settingValue,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zheng.settings.dao.model.Settings">
+    update settings
+    <set>
+      <if test="settingKey != null">
+        setting_key = #{settingKey,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=BIGINT},
+      </if>
+      <if test="settingValue != null">
+        setting_value = #{settingValue,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.zheng.settings.dao.model.Settings">
+    update settings
+    set setting_key = #{settingKey,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=BIGINT},
+      setting_value = #{settingValue,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zheng.settings.dao.model.Settings">
+    update settings
+    set setting_key = #{settingKey,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
+
+
+  <!-- 通过key得到setting对象 -->
+  <select id="selectKey" parameterType="string"
+          resultType="com.zheng.settings.dao.model.Settings">
+    SELECT id, setting_key, setting_value
+    FROM settings
+    WHERE setting_key = #{key}
+  </select>
+</mapper>

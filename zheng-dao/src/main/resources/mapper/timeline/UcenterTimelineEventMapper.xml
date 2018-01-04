@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zheng.timeline.dao.mapper.UcenterTimelineEventMapper">
+  <resultMap id="BaseResultMap" type="com.zheng.timeline.dao.model.UcenterTimelineEvent">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="timeline_id" jdbcType="INTEGER" property="timelineId" />
+    <result column="user_uuid" jdbcType="VARCHAR" property="userUuid" />
+    <result column="target_uuid" jdbcType="VARCHAR" property="targetUuid" />
+    <result column="target_id" jdbcType="INTEGER" property="targetId" />
+    <result column="text" jdbcType="VARCHAR" property="text" />
+    <result column="event_type" jdbcType="SMALLINT" property="eventType" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, timeline_id, user_uuid, target_uuid, target_id, text, event_type, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ucenter_timeline_event
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from ucenter_timeline_event
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zheng.timeline.dao.model.UcenterTimelineEvent">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into ucenter_timeline_event (timeline_id, user_uuid, target_uuid, 
+      target_id, text, event_type, 
+      create_time)
+    values (#{timelineId,jdbcType=INTEGER}, #{userUuid,jdbcType=VARCHAR}, #{targetUuid,jdbcType=VARCHAR}, 
+      #{targetId,jdbcType=INTEGER}, #{text,jdbcType=VARCHAR}, #{eventType,jdbcType=SMALLINT}, 
+      #{createTime,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zheng.timeline.dao.model.UcenterTimelineEvent">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into ucenter_timeline_event
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="timelineId != null">
+        timeline_id,
+      </if>
+      <if test="userUuid != null">
+        user_uuid,
+      </if>
+      <if test="targetUuid != null">
+        target_uuid,
+      </if>
+      <if test="targetId != null">
+        target_id,
+      </if>
+      <if test="text != null">
+        text,
+      </if>
+      <if test="eventType != null">
+        event_type,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="timelineId != null">
+        #{timelineId,jdbcType=INTEGER},
+      </if>
+      <if test="userUuid != null">
+        #{userUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="targetUuid != null">
+        #{targetUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="targetId != null">
+        #{targetId,jdbcType=INTEGER},
+      </if>
+      <if test="text != null">
+        #{text,jdbcType=VARCHAR},
+      </if>
+      <if test="eventType != null">
+        #{eventType,jdbcType=SMALLINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zheng.timeline.dao.model.UcenterTimelineEvent">
+    update ucenter_timeline_event
+    <set>
+      <if test="timelineId != null">
+        timeline_id = #{timelineId,jdbcType=INTEGER},
+      </if>
+      <if test="userUuid != null">
+        user_uuid = #{userUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="targetUuid != null">
+        target_uuid = #{targetUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="targetId != null">
+        target_id = #{targetId,jdbcType=INTEGER},
+      </if>
+      <if test="text != null">
+        text = #{text,jdbcType=VARCHAR},
+      </if>
+      <if test="eventType != null">
+        event_type = #{eventType,jdbcType=SMALLINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zheng.timeline.dao.model.UcenterTimelineEvent">
+    update ucenter_timeline_event
+    set timeline_id = #{timelineId,jdbcType=INTEGER},
+      user_uuid = #{userUuid,jdbcType=VARCHAR},
+      target_uuid = #{targetUuid,jdbcType=VARCHAR},
+      target_id = #{targetId,jdbcType=INTEGER},
+      text = #{text,jdbcType=VARCHAR},
+      event_type = #{eventType,jdbcType=SMALLINT},
+      create_time = #{createTime,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
+
+  <select id="selectEvents" resultType="com.zheng.timeline.model.UcenterTimelineEventVO">
+    select * from ucenter_timeline_event
+    <where>
+      timeline_id in
+      <foreach close=")" collection="list" item="item" open="(" separator=",">
+        #{item}
+      </foreach>
+    </where>
+    order by create_time desc
+  </select>
+
+  <select id="selectEventsByEventIds" resultType="com.zheng.timeline.model.UcenterTimelineEventVO">
+    select * from ucenter_timeline_event
+    <where>
+      id in
+      <foreach close=")" collection="list" item="item" open="(" separator=",">
+        #{item}
+      </foreach>
+    </where>
+    order by create_time desc
+  </select>
+
+  <select id="selectEventsByUuid" resultType="com.zheng.timeline.model.UcenterTimelineEventVO">
+    select * from ucenter_timeline_event
+    <where>
+      user_uuid = #{uuid} and event_type = #{eventType} and timeline_id = #{timelineId}
+    </where>
+    order by create_time desc
+  </select>
+
+  <delete id="deleteByUuidAndTimelineId">
+    delete from ucenter_timeline_event
+    <where>
+      user_uuid = #{uuid} and event_type = #{eventType} and timeline_id = #{timelineId}
+    </where>
+  </delete>
+</mapper>

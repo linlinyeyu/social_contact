@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zheng.user.dao.mapper.UcenterUserIdentityMapper">
+  <resultMap id="BaseResultMap" type="com.zheng.user.dao.model.UcenterUserIdentity">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="realname" jdbcType="VARCHAR" property="realname" />
+    <result column="sex" jdbcType="SMALLINT" property="sex" />
+    <result column="identity_card" jdbcType="VARCHAR" property="identityCard" />
+    <result column="front_image" jdbcType="VARCHAR" property="frontImage" />
+    <result column="behind_image" jdbcType="VARCHAR" property="behindImage" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="audit_time" jdbcType="BIGINT" property="auditTime" />
+    <result column="state" jdbcType="SMALLINT" property="state" />
+    <result column="reply" jdbcType="VARCHAR" property="reply" />
+    <result column="admin_id" jdbcType="INTEGER" property="adminId" />
+    <result column="admin_name" jdbcType="VARCHAR" property="adminName" />
+    <result column="is_rejected" jdbcType="BIT" property="isRejected" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, realname, sex, identity_card, front_image, behind_image, create_time, 
+    audit_time, state, reply, admin_id, admin_name, is_rejected
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ucenter_user_identity
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from ucenter_user_identity
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zheng.user.dao.model.UcenterUserIdentity">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into ucenter_user_identity (user_id, realname, sex, 
+      identity_card, front_image, behind_image, 
+      create_time, audit_time, state, 
+      reply, admin_id, admin_name, 
+      is_rejected)
+    values (#{userId,jdbcType=INTEGER}, #{realname,jdbcType=VARCHAR}, #{sex,jdbcType=SMALLINT}, 
+      #{identityCard,jdbcType=VARCHAR}, #{frontImage,jdbcType=VARCHAR}, #{behindImage,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=BIGINT}, #{auditTime,jdbcType=BIGINT}, #{state,jdbcType=SMALLINT}, 
+      #{reply,jdbcType=VARCHAR}, #{adminId,jdbcType=INTEGER}, #{adminName,jdbcType=VARCHAR}, 
+      #{isRejected,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zheng.user.dao.model.UcenterUserIdentity">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into ucenter_user_identity
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="realname != null">
+        realname,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="identityCard != null">
+        identity_card,
+      </if>
+      <if test="frontImage != null">
+        front_image,
+      </if>
+      <if test="behindImage != null">
+        behind_image,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="auditTime != null">
+        audit_time,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="reply != null">
+        reply,
+      </if>
+      <if test="adminId != null">
+        admin_id,
+      </if>
+      <if test="adminName != null">
+        admin_name,
+      </if>
+      <if test="isRejected != null">
+        is_rejected,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="realname != null">
+        #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=SMALLINT},
+      </if>
+      <if test="identityCard != null">
+        #{identityCard,jdbcType=VARCHAR},
+      </if>
+      <if test="frontImage != null">
+        #{frontImage,jdbcType=VARCHAR},
+      </if>
+      <if test="behindImage != null">
+        #{behindImage,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="auditTime != null">
+        #{auditTime,jdbcType=BIGINT},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=SMALLINT},
+      </if>
+      <if test="reply != null">
+        #{reply,jdbcType=VARCHAR},
+      </if>
+      <if test="adminId != null">
+        #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="adminName != null">
+        #{adminName,jdbcType=VARCHAR},
+      </if>
+      <if test="isRejected != null">
+        #{isRejected,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zheng.user.dao.model.UcenterUserIdentity">
+    update ucenter_user_identity
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="realname != null">
+        realname = #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=SMALLINT},
+      </if>
+      <if test="identityCard != null">
+        identity_card = #{identityCard,jdbcType=VARCHAR},
+      </if>
+      <if test="frontImage != null">
+        front_image = #{frontImage,jdbcType=VARCHAR},
+      </if>
+      <if test="behindImage != null">
+        behind_image = #{behindImage,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="auditTime != null">
+        audit_time = #{auditTime,jdbcType=BIGINT},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=SMALLINT},
+      </if>
+      <if test="reply != null">
+        reply = #{reply,jdbcType=VARCHAR},
+      </if>
+      <if test="adminId != null">
+        admin_id = #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="adminName != null">
+        admin_name = #{adminName,jdbcType=VARCHAR},
+      </if>
+      <if test="isRejected != null">
+        is_rejected = #{isRejected,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zheng.user.dao.model.UcenterUserIdentity">
+    update ucenter_user_identity
+    set user_id = #{userId,jdbcType=INTEGER},
+      realname = #{realname,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=SMALLINT},
+      identity_card = #{identityCard,jdbcType=VARCHAR},
+      front_image = #{frontImage,jdbcType=VARCHAR},
+      behind_image = #{behindImage,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=BIGINT},
+      audit_time = #{auditTime,jdbcType=BIGINT},
+      state = #{state,jdbcType=SMALLINT},
+      reply = #{reply,jdbcType=VARCHAR},
+      admin_id = #{adminId,jdbcType=INTEGER},
+      admin_name = #{adminName,jdbcType=VARCHAR},
+      is_rejected = #{isRejected,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
+
+  <select id="selectLastIdentity" parameterType="int" resultType="com.zheng.user.dao.model.UcenterUserIdentity">
+    select * from ucenter_user_identity where user_id = #{userId} order by create_time desc limit 1
+  </select>
+
+  <select id="selectPassedIdentity" parameterType="int" resultType="com.zheng.user.dao.model.UcenterUserIdentity">
+    select * from ucenter_user_identity where user_id = #{userId} and state = 1 order by create_time desc limit 1
+  </select>
+
+  <select id="selectPassedOrAuditIdentity" parameterType="int" resultType="com.zheng.user.dao.model.UcenterUserIdentity">
+    select * from ucenter_user_identity where user_id = #{userId} and state in (0,1) order by create_time desc limit 1
+  </select>
+
+</mapper>

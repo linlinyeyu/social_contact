@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zheng.address.dao.mapper.AddressMapper">
+  <resultMap id="BaseResultMap" type="com.zheng.address.dao.model.Address">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+    <result column="short_name" jdbcType="VARCHAR" property="shortName" />
+    <result column="level" jdbcType="SMALLINT" property="level" />
+    <result column="pinyin" jdbcType="VARCHAR" property="pinyin" />
+    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
+    <result column="update_name" jdbcType="VARCHAR" property="updateName" />
+    <result column="update_parent_id" jdbcType="INTEGER" property="updateParentId" />
+    <result column="update_short_name" jdbcType="VARCHAR" property="updateShortName" />
+    <result column="update_level" jdbcType="SMALLINT" property="updateLevel" />
+    <result column="update_pinyin" jdbcType="VARCHAR" property="updatePinyin" />
+    <result column="update_is_deleted" jdbcType="BIT" property="updateIsDeleted" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, parent_id, short_name, level, pinyin, is_deleted, update_name, update_parent_id, 
+    update_short_name, update_level, update_pinyin, update_is_deleted, address
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from address
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from address
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zheng.address.dao.model.Address">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into address (name, parent_id, short_name, 
+      level, pinyin, is_deleted, 
+      update_name, update_parent_id, update_short_name, 
+      update_level, update_pinyin, update_is_deleted, 
+      address)
+    values (#{name,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER}, #{shortName,jdbcType=VARCHAR}, 
+      #{level,jdbcType=SMALLINT}, #{pinyin,jdbcType=VARCHAR}, #{isDeleted,jdbcType=BIT}, 
+      #{updateName,jdbcType=VARCHAR}, #{updateParentId,jdbcType=INTEGER}, #{updateShortName,jdbcType=VARCHAR}, 
+      #{updateLevel,jdbcType=SMALLINT}, #{updatePinyin,jdbcType=VARCHAR}, #{updateIsDeleted,jdbcType=BIT}, 
+      #{address,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zheng.address.dao.model.Address">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into address
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        name,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="shortName != null">
+        short_name,
+      </if>
+      <if test="level != null">
+        level,
+      </if>
+      <if test="pinyin != null">
+        pinyin,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
+      <if test="updateName != null">
+        update_name,
+      </if>
+      <if test="updateParentId != null">
+        update_parent_id,
+      </if>
+      <if test="updateShortName != null">
+        update_short_name,
+      </if>
+      <if test="updateLevel != null">
+        update_level,
+      </if>
+      <if test="updatePinyin != null">
+        update_pinyin,
+      </if>
+      <if test="updateIsDeleted != null">
+        update_is_deleted,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="shortName != null">
+        #{shortName,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        #{level,jdbcType=SMALLINT},
+      </if>
+      <if test="pinyin != null">
+        #{pinyin,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=BIT},
+      </if>
+      <if test="updateName != null">
+        #{updateName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateParentId != null">
+        #{updateParentId,jdbcType=INTEGER},
+      </if>
+      <if test="updateShortName != null">
+        #{updateShortName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateLevel != null">
+        #{updateLevel,jdbcType=SMALLINT},
+      </if>
+      <if test="updatePinyin != null">
+        #{updatePinyin,jdbcType=VARCHAR},
+      </if>
+      <if test="updateIsDeleted != null">
+        #{updateIsDeleted,jdbcType=BIT},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zheng.address.dao.model.Address">
+    update address
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="shortName != null">
+        short_name = #{shortName,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        level = #{level,jdbcType=SMALLINT},
+      </if>
+      <if test="pinyin != null">
+        pinyin = #{pinyin,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
+      <if test="updateName != null">
+        update_name = #{updateName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateParentId != null">
+        update_parent_id = #{updateParentId,jdbcType=INTEGER},
+      </if>
+      <if test="updateShortName != null">
+        update_short_name = #{updateShortName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateLevel != null">
+        update_level = #{updateLevel,jdbcType=SMALLINT},
+      </if>
+      <if test="updatePinyin != null">
+        update_pinyin = #{updatePinyin,jdbcType=VARCHAR},
+      </if>
+      <if test="updateIsDeleted != null">
+        update_is_deleted = #{updateIsDeleted,jdbcType=BIT},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zheng.address.dao.model.Address">
+    update address
+    set name = #{name,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=INTEGER},
+      short_name = #{shortName,jdbcType=VARCHAR},
+      level = #{level,jdbcType=SMALLINT},
+      pinyin = #{pinyin,jdbcType=VARCHAR},
+      is_deleted = #{isDeleted,jdbcType=BIT},
+      update_name = #{updateName,jdbcType=VARCHAR},
+      update_parent_id = #{updateParentId,jdbcType=INTEGER},
+      update_short_name = #{updateShortName,jdbcType=VARCHAR},
+      update_level = #{updateLevel,jdbcType=SMALLINT},
+      update_pinyin = #{updatePinyin,jdbcType=VARCHAR},
+      update_is_deleted = #{updateIsDeleted,jdbcType=BIT},
+      address = #{address,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
+
+  <!-- 模糊查找省信息 -->
+  <select id="findPro" parameterType="string" resultType="com.zheng.address.dao.model.Address">
+    SELECT <include refid="baseList" />
+    FROM address
+    WHERE name LIKE CONCAT(#{pro},'%')  AND level = 1 AND is_deleted = 0
+  </select>
+
+  <!-- 地址名称，父地址id获取地址信息 -->
+  <select id="findAddress" resultType="com.zheng.address.dao.model.Address">
+    SELECT <include refid="baseList" />
+    FROM address
+    WHERE name=#{0} AND parent_id=#{1} AND is_deleted = 0
+  </select>
+
+
+
+  <!-- 获取制定id地址下的子地址列表,设置 -->
+  <select id="sonList" parameterType="int" resultType="com.zheng.address.dao.model.Address">
+    SELECT <include refid="baseList" />
+    FROM address
+    WHERE update_parent_id = #{update_parent_id} AND update_is_deleted = 0
+    ORDER BY id ASC
+  </select>
+
+  <!-- 获取制定id地址下的子地址列表,使用 -->
+  <select id="nextList" parameterType="int" resultType="com.zheng.address.dao.model.Address">
+    SELECT <include refid="baseList" />
+    FROM address
+    WHERE parent_id = #{parent_id} AND is_deleted = 0
+    ORDER BY id ASC
+  </select>
+
+  <!-- 发布地址 -->
+  <update id="publishAddress">
+    UPDATE address
+    SET name = update_name,
+    parent_id = update_parent_id,
+    short_name = update_short_name,
+    level = update_level,
+    firstChar = update_firstChar,
+    is_deleted = update_is_deleted
+  </update>
+
+  <!--获取全部地址，按等级，id顺序 -->
+  <select id="getPublish" resultType="com.zheng.address.dao.model.Address">
+    SELECT id, name ,parent_id,  firstChar,level
+    FROM address
+    WHERE is_deleted = 0 AND level &lt; 4
+    ORDER BY level ASC, id ASC
+  </select>
+
+  <!-- 首字母获取地址列表 -->
+  <select id="charAddress" resultMap="charAddressEntity">
+    SELECT id, name, parent_id, short_name, level, firstChar, is_deleted
+    FROM address
+    WHERE firstChar IS NOT NULL and is_deleted = 0 AND level = 2
+    ORDER BY firstChar ASC, id ASC
+  </select>
+
+  <select id="searchAddress" parameterType="string" resultType="map">
+    SELECT a1.id as province_id,a2.id as city_id,a3.id as county_id,a4.id as town_id,
+    a4.address,a1.name as province_name, a2.name as city_name, a3.name as county_name, a4.name as town_name
+    from address a4
+    LEFT JOIN address a3 ON a4.parent_id = a3.id
+    LEFT JOIN address a2 ON a3.parent_id = a2.id
+    LEFT JOIN address a1 ON a2.parent_id = a1.id
+    where a4.level = 4 and a4.address like concat('%', #{area} ,'%')
+    limit 20;
+  </select>
+
+  <select id="findCountyById" resultType="map">
+    select a1.name as province_name , a2.name as city_name, a3.name as county_name, a4.name as town_name
+    from address a1
+    left join address a2 on a2.parent_id = a1.id and a2.id = #{city_id}
+    left join address a3 on a3.parent_id = a2.id and a3.id = #{county_id}
+    left join address a4 on a4.parent_id = a3.id and a4.id = #{town_id}
+    where a1.id = #{province_id}
+
+  </select>
+
+  <!-- 辅助sql -->
+  <sql id="baseList">
+    <include refid="Base_Column_List" />
+  </sql>
+
+  <resultMap id="charAddressEntity" type="com.zheng.address.dao.model.CharAddress">
+    <id column="firstChar" property="firstChar" />
+    <collection property="addresses" resultMap="address" />
+  </resultMap>
+
+  <resultMap autoMapping="true" id="address" type="com.zheng.address.dao.model.Address">
+    <id column="id" property="id" />
+
+  </resultMap>
+</mapper>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zheng.action.dao.mapper.ActionMapper">
+  <resultMap id="BaseResultMap" type="com.zheng.action.dao.model.Action">
+    <id column="action_id" jdbcType="INTEGER" property="actionId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="ios_param" jdbcType="VARCHAR" property="iosParam" />
+    <result column="android_param" jdbcType="VARCHAR" property="androidParam" />
+    <result column="wap_param" jdbcType="VARCHAR" property="wapParam" />
+    <result column="web_param" jdbcType="VARCHAR" property="webParam" />
+    <result column="need_login" jdbcType="BIT" property="needLogin" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    action_id, name, ios_param, android_param, wap_param, web_param, need_login
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from action
+    where action_id = #{actionId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from action
+    where action_id = #{actionId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zheng.action.dao.model.Action">
+    insert into action (action_id, name, ios_param, 
+      android_param, wap_param, web_param, 
+      need_login)
+    values (#{actionId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{iosParam,jdbcType=VARCHAR}, 
+      #{androidParam,jdbcType=VARCHAR}, #{wapParam,jdbcType=VARCHAR}, #{webParam,jdbcType=VARCHAR}, 
+      #{needLogin,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zheng.action.dao.model.Action">
+    insert into action
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="actionId != null">
+        action_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="iosParam != null">
+        ios_param,
+      </if>
+      <if test="androidParam != null">
+        android_param,
+      </if>
+      <if test="wapParam != null">
+        wap_param,
+      </if>
+      <if test="webParam != null">
+        web_param,
+      </if>
+      <if test="needLogin != null">
+        need_login,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="actionId != null">
+        #{actionId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="iosParam != null">
+        #{iosParam,jdbcType=VARCHAR},
+      </if>
+      <if test="androidParam != null">
+        #{androidParam,jdbcType=VARCHAR},
+      </if>
+      <if test="wapParam != null">
+        #{wapParam,jdbcType=VARCHAR},
+      </if>
+      <if test="webParam != null">
+        #{webParam,jdbcType=VARCHAR},
+      </if>
+      <if test="needLogin != null">
+        #{needLogin,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zheng.action.dao.model.Action">
+    update action
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="iosParam != null">
+        ios_param = #{iosParam,jdbcType=VARCHAR},
+      </if>
+      <if test="androidParam != null">
+        android_param = #{androidParam,jdbcType=VARCHAR},
+      </if>
+      <if test="wapParam != null">
+        wap_param = #{wapParam,jdbcType=VARCHAR},
+      </if>
+      <if test="webParam != null">
+        web_param = #{webParam,jdbcType=VARCHAR},
+      </if>
+      <if test="needLogin != null">
+        need_login = #{needLogin,jdbcType=BIT},
+      </if>
+    </set>
+    where action_id = #{actionId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zheng.action.dao.model.Action">
+    update action
+    set name = #{name,jdbcType=VARCHAR},
+      ios_param = #{iosParam,jdbcType=VARCHAR},
+      android_param = #{androidParam,jdbcType=VARCHAR},
+      wap_param = #{wapParam,jdbcType=VARCHAR},
+      web_param = #{webParam,jdbcType=VARCHAR},
+      need_login = #{needLogin,jdbcType=BIT}
+    where action_id = #{actionId,jdbcType=INTEGER}
+  </update>
+  <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
+</mapper>

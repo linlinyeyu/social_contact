@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://code.alibabatech.com/schema/dubbo
+       http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:property-placeholder location="neo4j-datasource.properties"></context:property-placeholder>
+
+    <dubbo:application name="zheng-neo4j-rpc-service"/>
+    <dubbo:registry address="zookeeper://${dubbo.provider.host}:2181" timeout="10000"/>
+    <dubbo:protocol port="20889" name="dubbo" threads="200" host="${dubbo.consume.host}" />
+    <!--<dubbo:monitor protocol="registry"/>-->
+
+    <!--用户操作-->
+    <dubbo:service interface="com.zheng.neo4j.rpc.api.Neo4jUserService" ref="neo4jUserService" executes="200" timeout="10000"/>
+    <bean id="neo4jUserService" class="com.zheng.neo4j.rpc.service.Neo4jUserServiceImpl" />
+    <!--群操作-->
+    <dubbo:service interface="com.zheng.neo4j.rpc.api.Neo4jGroupService" ref="neo4jGroupService" executes="200" timeout="10000"/>
+    <bean id="neo4jGroupService" class="com.zheng.neo4j.rpc.service.Neo4jGroupServiceImpl"/>
+</beans>

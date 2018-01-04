@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zheng.user.dao.mapper.UcenterUserGroupMapper">
+  <resultMap id="BaseResultMap" type="com.zheng.user.dao.model.UcenterUserGroup">
+    <id column="user_group_id" jdbcType="INTEGER" property="userGroupId" />
+    <result column="group_name" jdbcType="VARCHAR" property="groupName" />
+    <result column="owner" jdbcType="VARCHAR" property="owner" />
+    <result column="announcement" jdbcType="VARCHAR" property="announcement" />
+    <result column="date_add" jdbcType="BIGINT" property="dateAdd" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="is_family" jdbcType="TINYINT" property="isFamily" />
+    <result column="yx_tid" jdbcType="VARCHAR" property="yxTid" />
+    <result column="icon" jdbcType="VARCHAR" property="icon"/>
+    <result column="geohash" jdbcType="VARCHAR" property="geohash"/>
+    <result column="password" jdbcType="SMALLINT" property="password"/>
+    <result column="is_remind" jdbcType="TINYINT" property="isRemind"/>
+  </resultMap>
+  <sql id="Base_Column_List">
+    user_group_id, group_name, owner, announcement, date_add, status, is_family, yx_tid,icon,geohash,password,
+    is_remind
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ucenter_user_group
+    where user_group_id = #{userGroupId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from ucenter_user_group
+    where user_group_id = #{userGroupId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zheng.user.dao.model.UcenterUserGroup">
+    <selectKey keyProperty="userGroupId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into ucenter_user_group (group_name, owner, announcement, 
+      date_add, status, is_family, 
+      yx_tid,icon,geohash,password,is_remind)
+    values (#{groupName,jdbcType=VARCHAR}, #{owner,jdbcType=VARCHAR}, #{announcement,jdbcType=VARCHAR}, 
+      #{dateAdd,jdbcType=BIGINT}, #{status,jdbcType=TINYINT}, #{isFamily,jdbcType=TINYINT}, 
+      #{yxTid,jdbcType=VARCHAR},#{icon,jdbcType=VARCHAR},#{geohash,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR},
+    #{isRemind,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zheng.user.dao.model.UcenterUserGroup">
+    <selectKey keyProperty="userGroupId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into ucenter_user_group
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="groupName != null">
+        group_name,
+      </if>
+      <if test="owner != null">
+        owner,
+      </if>
+      <if test="announcement != null">
+        announcement,
+      </if>
+      <if test="dateAdd != null">
+        date_add,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="isFamily != null">
+        is_family,
+      </if>
+      <if test="yxTid != null">
+        yx_tid,
+      </if>
+      <if test="icon != null">
+        icon,
+      </if>
+      <if test="geohash != null">
+        geohash,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="isRemind != null">
+        is_remind,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="groupName != null">
+        #{groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="owner != null">
+        #{owner,jdbcType=VARCHAR},
+      </if>
+      <if test="announcement != null">
+        #{announcement,jdbcType=VARCHAR},
+      </if>
+      <if test="dateAdd != null">
+        #{dateAdd,jdbcType=BIGINT},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="isFamily != null">
+        #{isFamily,jdbcType=TINYINT},
+      </if>
+      <if test="yxTid != null">
+        #{yxTid,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null">
+        #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="geohash != null">
+        #{geohash,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=SMALLINT},
+      </if>
+      <if test="isRemind != null">
+        #{isRemind,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zheng.user.dao.model.UcenterUserGroup">
+    update ucenter_user_group
+    <set>
+      <if test="groupName != null">
+        group_name = #{groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="owner != null">
+        owner = #{owner,jdbcType=VARCHAR},
+      </if>
+      <if test="announcement != null">
+        announcement = #{announcement,jdbcType=VARCHAR},
+      </if>
+      <if test="dateAdd != null">
+        date_add = #{dateAdd,jdbcType=BIGINT},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="isFamily != null">
+        is_family = #{isFamily,jdbcType=TINYINT},
+      </if>
+      <if test="yxTid != null">
+        yx_tid = #{yxTid,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null">
+        icon = #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="geohash != null">
+        geohash = #{geohash,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=SMALLINT},
+      </if>
+      <if test="isRemind != null">
+        is_remind = #{isRemind,jdbcType=TINYINT},
+      </if>
+    </set>
+    where user_group_id = #{userGroupId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zheng.user.dao.model.UcenterUserGroup">
+    update ucenter_user_group
+    set group_name = #{groupName,jdbcType=VARCHAR},
+      owner = #{owner,jdbcType=VARCHAR},
+      announcement = #{announcement,jdbcType=VARCHAR},
+      date_add = #{dateAdd,jdbcType=BIGINT},
+      status = #{status,jdbcType=TINYINT},
+      is_family = #{isFamily,jdbcType=TINYINT},
+      yx_tid = #{yxTid,jdbcType=VARCHAR},
+      icon = #{icon,jdbcType=VARCHAR},
+      geohash = #{geohash,jdbcType=VARCHAR},
+      password = #{password,jdbcType=SMALLINT},
+      is_remind = #{isRemind,jdbcType=TINYINT}
+    where user_group_id = #{userGroupId,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByUuidAndYxid" parameterType="com.zheng.user.dao.model.UcenterUserGroup">
+    update ucenter_user_group
+    <set>
+      <if test="groupName != null">
+        group_name = #{groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="announcement != null">
+        announcement = #{announcement,jdbcType=VARCHAR},
+      </if>
+      <if test="isRemind != null">
+        is_remind = #{isRemind,jdbcType=TINYINT},
+      </if>
+    </set>
+    where owner = #{owner,jdbcType=VARCHAR} and yx_tid = #{yxTid,jdbcType=VARCHAR}
+  </update>
+
+  <delete id="deleteByYxTid" parameterType="java.lang.String">
+    delete from ucenter_user_group
+    where yx_tid = #{yx_tid}
+  </delete>
+
+  <update id="updateOwner">
+    update ucenter_user_group
+    set owner = #{new_owner}
+    where owner = #{owner} and yx_tid = #{tid}
+  </update>
+
+  <select id="getGroupQr" parameterType="java.lang.String" resultType="java.util.Map">
+    select
+    ug.group_name,ug.yx_tid,ug.owner,ug.icon,count(gr.group_relation_id) as member_count
+    from ucenter_user_group ug
+    inner join ucenter_group_relation gr on gr.group_yx_id = ug.yx_tid
+    where ug.yx_tid = #{tid}
+  </select>
+
+  <select id="selectByTid" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select * from ucenter_user_group where yx_tid = #{tid}
+  </select>
+  
+  <select id="selectByPg" resultType="com.zheng.user.dao.model.UcenterUserGroup">
+    select * from ucenter_user_group where password = #{password} and geohash REGEXP concat('^',#{geohash})
+  </select>
+
+  <select id="selectGroupsByTids" parameterType="java.util.List" resultMap="BaseResultMap">
+    select * from ucenter_user_group
+    where status = 1 and yx_tid
+    in
+    <foreach collection="list" index="index" item="id" open="(" separator="," close=")">
+      #{id}
+    </foreach>
+  </select>
+  <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
+</mapper>

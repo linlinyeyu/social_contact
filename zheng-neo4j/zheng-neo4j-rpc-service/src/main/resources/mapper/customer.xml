@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zheng.neo4j.dao.mapper.Neo4jUserMapper">
+    <update id="updateRelation" parameterType="com.zheng.neo4j.dao.domain.Neo4jFriend">
+      MATCH (u:User)-[r:Relation]-(u1:User) where u.uuid = #{accid} and u1.uuid = #{faccid}
+      set r.relation_type = #{relationType}
+    </update>
+    <insert id="insertSelect" parameterType="com.zheng.neo4j.dao.domain.Neo4jUser">
+        CREATE (u:User
+        {
+              active:1,
+        <trim suffixOverrides=",">
+          <if test="uuid != null">
+              uuid:#{uuid},
+          </if>
+          <if test="sex != null">
+              sex:#{sex},
+          </if>
+          <if test="name != null">
+              nickname:#{name},
+          </if>
+          <if test="realname != null">
+              realname:#{realname},
+          </if>
+          <if test="avater != null">
+              avater:#{avater},
+          </if>
+          <if test="email != null">
+              email:#{email},
+          </if>
+          <if test="birthday != null">
+              birthday:#{birthday},
+          </if>
+          <if test="mobile != null">
+              mobile:#{mobile},
+          </if>
+          <if test="token != null">
+              token:#{token},
+          </if>
+          <if test="createTime != null">
+              create_time:#{createTime},
+          </if>
+          <if test="createIp !=null">
+              create_ip:#{createIp},
+          </if>
+          <if test="lastLoginTime != null">
+              last_login_time:#{lastLoginTime},
+          </if>
+          <if test="lastLoginIp != null">
+              last_login_ip:#{lastLoginIp},
+          </if>
+        </trim>
+        })
+    </insert>
+    
+    <insert id="insertFriend" parameterType="com.zheng.neo4j.dao.domain.Neo4jFriend">
+        match (u1:User),(u2:User) where u1.uuid = #{accid} and u2.uuid = #{faccid}
+        <if test="relationType == 1">
+            create (u1)-[:Relation{relation_type:1}]->(u2)
+        </if>
+        <if test="relationType == 2">
+            create (u1)-[:Relation{relation_type:2}]->(u2)
+        </if>
+        <if test="relationType == 3">
+            create (u1)-[:Relation{relation_type:3}]->(u2)
+        </if>
+    </insert>
+
+    <delete id="deleteFriend" parameterType="com.zheng.neo4j.dao.domain.Neo4jFriend">
+        match (u1:User)-[r]-(u2:User) where u1.uuid = #{accid} and u2.uuid = #{faccid} delete r
+    </delete>
+
+    <delete id="delByPrimaryKey" parameterType="java.lang.Integer">
+        MATCH (c:User) where id(c) = #{id} delete c
+    </delete>
+
+    <update id="updSelect" parameterType="com.zheng.neo4j.dao.domain.Neo4jUser">
+        MATCH (c:User) where c.uuid = #{uuid} SET
+        <trim suffixOverrides=",">
+            <if test="password != null">
+                c.password = #{password},
+            </if>
+            <if test="name != null">
+                c.nickname = #{name},
+            </if>
+            <if test="realname != null">
+                c.realname = #{realname},
+            </if>
+            <if test="sex != null">
+                c.sex = #{sex},
+            </if>
+            <if test="avater != null">
+                c.avater = #{avater},
+            </if>
+            <if test="token != null">
+                c.token = #{token},
+            </if>
+            <if test="email != null">
+                c.email = #{email},
+            </if>
+            <if test="birthday != null">
+                c.birthday = #{birthday},
+            </if>
+            <if test="mobile != null">
+                c.mobile = #{mobile},
+            </if>
+            <if test="active != null">
+                c.active = #{active},
+            </if>
+            <if test="lastLoginTime != null">
+                c.last_login_time = #{lastLoginTime},
+            </if>
+            <if test="lastLoginIp != null">
+                c.last_login_ip = #{lastLoginIp},
+            </if>
+        </trim>
+    </update>
+</mapper>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zheng.user.dao.mapper.UcenterOauthMapper">
+  <resultMap id="BaseResultMap" type="com.zheng.user.dao.model.UcenterOauth">
+    <id column="oauth_id" jdbcType="INTEGER" property="oauthId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    oauth_id, name
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ucenter_oauth
+    where oauth_id = #{oauthId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from ucenter_oauth
+    where oauth_id = #{oauthId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zheng.user.dao.model.UcenterOauth">
+    insert into ucenter_oauth (oauth_id, name)
+    values (#{oauthId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zheng.user.dao.model.UcenterOauth">
+    insert into ucenter_oauth
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="oauthId != null">
+        oauth_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="oauthId != null">
+        #{oauthId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zheng.user.dao.model.UcenterOauth">
+    update ucenter_oauth
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where oauth_id = #{oauthId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zheng.user.dao.model.UcenterOauth">
+    update ucenter_oauth
+    set name = #{name,jdbcType=VARCHAR}
+    where oauth_id = #{oauthId,jdbcType=INTEGER}
+  </update>
+  <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
+</mapper>

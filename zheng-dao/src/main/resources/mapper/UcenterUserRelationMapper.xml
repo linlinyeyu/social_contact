@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zheng.user.dao.mapper.UcenterUserRelationMapper">
+  <resultMap id="BaseResultMap" type="com.zheng.user.dao.model.UcenterUserRelation">
+    <id column="user_relation_id" jdbcType="INTEGER" property="userRelationId" />
+    <result column="user_uuid" jdbcType="VARCHAR" property="userUuid" />
+    <result column="friend_uuid" jdbcType="VARCHAR" property="friendUuid" />
+    <result column="relation_type" jdbcType="TINYINT" property="relationType" />
+    <result column="date_add" jdbcType="BIGINT" property="dateAdd" />
+    <result column="date_upd" jdbcType="BIGINT" property="dateUpd" />
+    <result column="alias" jdbcType="VARCHAR" property="alias"/>
+    <result column="status" jdbcType="TINYINT" property="status"/>
+  </resultMap>
+  <sql id="Base_Column_List">
+    user_relation_id, user_uuid, friend_uuid, relation_type, date_add, date_upd,alias,status
+  </sql>
+
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ucenter_user_relation
+    where user_relation_id = #{userRelationId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from ucenter_user_relation
+    where user_relation_id = #{userRelationId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zheng.user.dao.model.UcenterUserRelation">
+    insert into ucenter_user_relation (user_relation_id, user_uuid, friend_uuid,
+      relation_type, date_add, date_upd,alias,status
+      )
+    values (#{userRelationId,jdbcType=INTEGER}, #{userUuid,jdbcType=VARCHAR}, #{friendUuid,jdbcType=VARCHAR},
+      #{relationType,jdbcType=TINYINT}, #{dateAdd,jdbcType=BIGINT}, #{dateUpd,jdbcType=BIGINT},#{alias,jdbcType=VARCHAR},
+      #{status,jdbcType=TINYINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zheng.user.dao.model.UcenterUserRelation">
+    insert into ucenter_user_relation
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userRelationId != null">
+        user_relation_id,
+      </if>
+      <if test="userUuid != null">
+        user_uuid,
+      </if>
+      <if test="friendUuid != null">
+        friend_uuid,
+      </if>
+      <if test="relationType != null">
+        relation_type,
+      </if>
+      <if test="dateAdd != null">
+        date_add,
+      </if>
+      <if test="dateUpd != null">
+        date_upd,
+      </if>
+      <if test="alias != null">
+        alias,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userRelationId != null">
+        #{userRelationId,jdbcType=INTEGER},
+      </if>
+      <if test="userUuid != null">
+        #{userUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="friendUuid != null">
+        #{friendUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="relationType != null">
+        #{relationType,jdbcType=TINYINT},
+      </if>
+      <if test="dateAdd != null">
+        #{dateAdd,jdbcType=BIGINT},
+      </if>
+      <if test="dateUpd != null">
+        #{dateUpd,jdbcType=BIGINT},
+      </if>
+      <if test="alias != null">
+        #{alias,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT}
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zheng.user.dao.model.UcenterUserRelation">
+    update ucenter_user_relation
+    <set>
+      <if test="userUuid != null">
+        user_uuid = #{userUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="friendUuid != null">
+        friend_uuid = #{friendUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="relationType != null">
+        relation_type = #{relationType,jdbcType=TINYINT},
+      </if>
+      <if test="dateAdd != null">
+        date_add = #{dateAdd,jdbcType=BIGINT},
+      </if>
+      <if test="dateUpd != null">
+        date_upd = #{dateUpd,jdbcType=BIGINT},
+      </if>
+      <if test="alias != null">
+        alias = #{alias,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcTypeTINYINT},
+      </if>
+    </set>
+    where user_relation_id = #{userRelationId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zheng.user.dao.model.UcenterUserRelation">
+    update ucenter_user_relation
+    set user_uuid = #{userUuid,jdbcType=VARCHAR},
+      friend_uuid = #{friendUuid,jdbcType=VARCHAR},
+      relation_type = #{relationType,jdbcType=TINYINT},
+      date_add = #{dateAdd,jdbcType=BIGINT},
+      date_upd = #{dateUpd,jdbcType=BIGINT},
+      alias = #{alias,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT}
+    where user_relation_id = #{userRelationId,jdbcType=INTEGER}
+  </update>
+
+  <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
+
+  <select id="selectByUuid" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from ucenter_user_relation
+    where user_uuid = #{uuid,jdbcType=VARCHAR} and friend_uuid = #{fuuid,jdbcType=VARCHAR}
+  </select>
+
+  <update id="updateByUuid" parameterType="com.zheng.user.dao.model.UcenterUserRelation">
+    update ucenter_user_relation
+    <set>
+      <if test="relationType != null">
+        relation_type = #{relationType,jdbcType=TINYINT},
+      </if>
+      <if test="dateAdd != null">
+        date_add = #{dateAdd,jdbcType=BIGINT},
+      </if>
+      <if test="dateUpd != null">
+        date_upd = #{dateUpd,jdbcType=BIGINT},
+      </if>
+      <if test="alias != null">
+        alias = #{alias,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+    </set>
+    where user_uuid = #{userUuid,jdbcType=VARCHAR} and friend_uuid = #{friendUuid,jdbcType=VARCHAR}
+  </update>
+
+
+
+  <update id="updateBySelectUuid" parameterType="com.zheng.user.dao.model.UcenterUserRelation">
+    update ucenter_user_relation
+    <set>
+      <if test="relationType != null">
+        relation_type = #{relationType,jdbcType=TINYINT},
+      </if>
+      <if test="dateAdd != null">
+        date_add = #{dateAdd,jdbcType=BIGINT},
+      </if>
+      <if test="dateUpd != null">
+        date_upd = #{dateUpd,jdbcType=BIGINT},
+      </if>
+      <if test="alias != null">
+        alias = #{alias,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+    </set>
+    where (user_uuid = #{userUuid,jdbcType=VARCHAR} and friend_uuid = #{friendUuid,jdbcType=VARCHAR}) or (user_uuid = #{friendUuid,jdbcType=VARCHAR} and friend_uuid = #{userUuid,jdbcType=VARCHAR})
+  </update>
+
+  <delete id="deleteRelationByUuid">
+    delete from ucenter_user_relation
+    where (user_uuid = #{uuid,jdbcType=VARCHAR} and friend_uuid = #{fuuid,jdbcType=VARCHAR}) or (user_uuid = #{fuuid,jdbcType=VARCHAR} and friend_uuid = #{uuid,jdbcType=VARCHAR})
+  </delete>
+
+  <select id="selectUserFriends" resultType="map">
+    select friend_uuid as uuid, relation_type from ucenter_user_relation
+    <where>
+      user_uuid = #{uuid} and status = 1
+      <if test="relationType != null ">
+        and relation_type in
+        <foreach collection="relationType" close=")" open="(" separator="," item="item">
+          #{item}
+        </foreach>
+      </if>
+    </where>
+  </select>
+  <select id="selectByMultiId" resultMap="BaseResultMap">
+    select *
+    from ucenter_user_relation
+    where (user_uuid = #{uuid} and friend_uuid = #{fuuid}) or (user_uuid = #{fuuid} and friend_uuid = #{uuid})
+  </select>
+
+
+
+</mapper>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zheng.user.dao.mapper.UcenterUserLogMapper">
+  <resultMap id="BaseResultMap" type="com.zheng.user.dao.model.UcenterUserLog">
+    <id column="user_log_id" jdbcType="INTEGER" property="userLogId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="device_id" jdbcType="VARCHAR" property="deviceId" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="ip" jdbcType="VARCHAR" property="ip" />
+    <result column="agent" jdbcType="VARCHAR" property="agent" />
+    <result column="terminal" jdbcType="INTEGER" property="terminal" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    user_log_id, user_id, device_id, content, ip, agent, terminal, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ucenter_user_log
+    where user_log_id = #{userLogId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from ucenter_user_log
+    where user_log_id = #{userLogId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zheng.user.dao.model.UcenterUserLog">
+    insert into ucenter_user_log (user_log_id, user_id, device_id, 
+      content, ip, agent, 
+      terminal, create_time)
+    values (#{userLogId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{deviceId,jdbcType=VARCHAR}, 
+      #{content,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, #{agent,jdbcType=VARCHAR}, 
+      #{terminal,jdbcType=INTEGER}, #{createTime,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zheng.user.dao.model.UcenterUserLog">
+    insert into ucenter_user_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userLogId != null">
+        user_log_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="deviceId != null">
+        device_id,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="ip != null">
+        ip,
+      </if>
+      <if test="agent != null">
+        agent,
+      </if>
+      <if test="terminal != null">
+        terminal,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userLogId != null">
+        #{userLogId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="deviceId != null">
+        #{deviceId,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null">
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="agent != null">
+        #{agent,jdbcType=VARCHAR},
+      </if>
+      <if test="terminal != null">
+        #{terminal,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zheng.user.dao.model.UcenterUserLog">
+    update ucenter_user_log
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="deviceId != null">
+        device_id = #{deviceId,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null">
+        ip = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="agent != null">
+        agent = #{agent,jdbcType=VARCHAR},
+      </if>
+      <if test="terminal != null">
+        terminal = #{terminal,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+    </set>
+    where user_log_id = #{userLogId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zheng.user.dao.model.UcenterUserLog">
+    update ucenter_user_log
+    set user_id = #{userId,jdbcType=INTEGER},
+      device_id = #{deviceId,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      ip = #{ip,jdbcType=VARCHAR},
+      agent = #{agent,jdbcType=VARCHAR},
+      terminal = #{terminal,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=BIGINT}
+    where user_log_id = #{userLogId,jdbcType=INTEGER}
+  </update>
+  <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
+</mapper>

@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zheng.user.dao.mapper.UcenterUserMapper">
+  <resultMap id="BaseResultMap" type="com.zheng.user.dao.model.UcenterUser">
+    <id column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="uuid" jdbcType="VARCHAR" property="uuid" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+    <result column="realname" jdbcType="VARCHAR" property="realname" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="sex" jdbcType="TINYINT" property="sex" />
+    <result column="avatar" jdbcType="VARCHAR" property="avatar" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="birthday" jdbcType="BIGINT" property="birthday" />
+    <result column="is_identity" jdbcType="SMALLINT" property="isIdentity" />
+    <result column="active" jdbcType="TINYINT" property="active" />
+    <result column="province_id" jdbcType="INTEGER" property="provinceId" />
+    <result column="city_id" jdbcType="INTEGER" property="cityId" />
+    <result column="area" jdbcType="VARCHAR" property="area" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="create_ip" jdbcType="VARCHAR" property="createIp" />
+    <result column="last_login_time" jdbcType="BIGINT" property="lastLoginTime" />
+    <result column="last_login_ip" jdbcType="VARCHAR" property="lastLoginIp" />
+    <result column="token" jdbcType="VARCHAR" property="token" />
+    <result column="token_expire_time" jdbcType="BIGINT" property="tokenExpireTime" />
+    <result column="jpush_token" jdbcType="VARCHAR" property="jpushToken" />
+    <result column="yx_token" jdbcType="VARCHAR" property="yxToken" />
+    <result column="terminal" jdbcType="SMALLINT" property="terminal" />
+    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
+    <result column="need_push" jdbcType="BIT" property="needPush" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    user_id, uuid, password, nickname, realname, phone, sex, avatar, email, birthday, 
+    is_identity, active, province_id, city_id, area, create_time, create_ip, last_login_time, 
+    last_login_ip, token, token_expire_time, jpush_token, yx_token, terminal, is_deleted, 
+    need_push
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ucenter_user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from ucenter_user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zheng.user.dao.model.UcenterUser">
+    <selectKey keyProperty="userId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into ucenter_user (uuid, password, nickname, 
+      realname, phone, sex, 
+      avatar, email, birthday, 
+      is_identity, active, province_id, 
+      city_id, area, create_time, 
+      create_ip, last_login_time, last_login_ip, 
+      token, token_expire_time, jpush_token, 
+      yx_token, terminal, is_deleted, 
+      need_push)
+    values (#{uuid,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, 
+      #{realname,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{sex,jdbcType=TINYINT}, 
+      #{avatar,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{birthday,jdbcType=BIGINT}, 
+      #{isIdentity,jdbcType=SMALLINT}, #{active,jdbcType=TINYINT}, #{provinceId,jdbcType=INTEGER}, 
+      #{cityId,jdbcType=INTEGER}, #{area,jdbcType=VARCHAR}, #{createTime,jdbcType=BIGINT}, 
+      #{createIp,jdbcType=VARCHAR}, #{lastLoginTime,jdbcType=BIGINT}, #{lastLoginIp,jdbcType=VARCHAR}, 
+      #{token,jdbcType=VARCHAR}, #{tokenExpireTime,jdbcType=BIGINT}, #{jpushToken,jdbcType=VARCHAR}, 
+      #{yxToken,jdbcType=VARCHAR}, #{terminal,jdbcType=SMALLINT}, #{isDeleted,jdbcType=BIT}, 
+      #{needPush,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zheng.user.dao.model.UcenterUser">
+    <selectKey keyProperty="userId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into ucenter_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="uuid != null">
+        uuid,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="nickname != null">
+        nickname,
+      </if>
+      <if test="realname != null">
+        realname,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="avatar != null">
+        avatar,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="birthday != null">
+        birthday,
+      </if>
+      <if test="isIdentity != null">
+        is_identity,
+      </if>
+      <if test="active != null">
+        active,
+      </if>
+      <if test="provinceId != null">
+        province_id,
+      </if>
+      <if test="cityId != null">
+        city_id,
+      </if>
+      <if test="area != null">
+        area,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createIp != null">
+        create_ip,
+      </if>
+      <if test="lastLoginTime != null">
+        last_login_time,
+      </if>
+      <if test="lastLoginIp != null">
+        last_login_ip,
+      </if>
+      <if test="token != null">
+        token,
+      </if>
+      <if test="tokenExpireTime != null">
+        token_expire_time,
+      </if>
+      <if test="jpushToken != null">
+        jpush_token,
+      </if>
+      <if test="yxToken != null">
+        yx_token,
+      </if>
+      <if test="terminal != null">
+        terminal,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
+      <if test="needPush != null">
+        need_push,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="uuid != null">
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null">
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="realname != null">
+        #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=TINYINT},
+      </if>
+      <if test="avatar != null">
+        #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        #{birthday,jdbcType=BIGINT},
+      </if>
+      <if test="isIdentity != null">
+        #{isIdentity,jdbcType=SMALLINT},
+      </if>
+      <if test="active != null">
+        #{active,jdbcType=TINYINT},
+      </if>
+      <if test="provinceId != null">
+        #{provinceId,jdbcType=INTEGER},
+      </if>
+      <if test="cityId != null">
+        #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="area != null">
+        #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="createIp != null">
+        #{createIp,jdbcType=VARCHAR},
+      </if>
+      <if test="lastLoginTime != null">
+        #{lastLoginTime,jdbcType=BIGINT},
+      </if>
+      <if test="lastLoginIp != null">
+        #{lastLoginIp,jdbcType=VARCHAR},
+      </if>
+      <if test="token != null">
+        #{token,jdbcType=VARCHAR},
+      </if>
+      <if test="tokenExpireTime != null">
+        #{tokenExpireTime,jdbcType=BIGINT},
+      </if>
+      <if test="jpushToken != null">
+        #{jpushToken,jdbcType=VARCHAR},
+      </if>
+      <if test="yxToken != null">
+        #{yxToken,jdbcType=VARCHAR},
+      </if>
+      <if test="terminal != null">
+        #{terminal,jdbcType=SMALLINT},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=BIT},
+      </if>
+      <if test="needPush != null">
+        #{needPush,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zheng.user.dao.model.UcenterUser">
+    update ucenter_user
+    <set>
+      <if test="uuid != null">
+        uuid = #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null">
+        nickname = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="realname != null">
+        realname = #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=TINYINT},
+      </if>
+      <if test="avatar != null">
+        avatar = #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        birthday = #{birthday,jdbcType=BIGINT},
+      </if>
+      <if test="isIdentity != null">
+        is_identity = #{isIdentity,jdbcType=SMALLINT},
+      </if>
+      <if test="active != null">
+        active = #{active,jdbcType=TINYINT},
+      </if>
+      <if test="provinceId != null">
+        province_id = #{provinceId,jdbcType=INTEGER},
+      </if>
+      <if test="cityId != null">
+        city_id = #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="area != null">
+        area = #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="createIp != null">
+        create_ip = #{createIp,jdbcType=VARCHAR},
+      </if>
+      <if test="lastLoginTime != null">
+        last_login_time = #{lastLoginTime,jdbcType=BIGINT},
+      </if>
+      <if test="lastLoginIp != null">
+        last_login_ip = #{lastLoginIp,jdbcType=VARCHAR},
+      </if>
+      <if test="token != null">
+        token = #{token,jdbcType=VARCHAR},
+      </if>
+      <if test="tokenExpireTime != null">
+        token_expire_time = #{tokenExpireTime,jdbcType=BIGINT},
+      </if>
+      <if test="jpushToken != null">
+        jpush_token = #{jpushToken,jdbcType=VARCHAR},
+      </if>
+      <if test="yxToken != null">
+        yx_token = #{yxToken,jdbcType=VARCHAR},
+      </if>
+      <if test="terminal != null">
+        terminal = #{terminal,jdbcType=SMALLINT},
+      </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
+      <if test="needPush != null">
+        need_push = #{needPush,jdbcType=BIT},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zheng.user.dao.model.UcenterUser">
+    update ucenter_user
+    set uuid = #{uuid,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      nickname = #{nickname,jdbcType=VARCHAR},
+      realname = #{realname,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=TINYINT},
+      avatar = #{avatar,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      birthday = #{birthday,jdbcType=BIGINT},
+      is_identity = #{isIdentity,jdbcType=SMALLINT},
+      active = #{active,jdbcType=TINYINT},
+      province_id = #{provinceId,jdbcType=INTEGER},
+      city_id = #{cityId,jdbcType=INTEGER},
+      area = #{area,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=BIGINT},
+      create_ip = #{createIp,jdbcType=VARCHAR},
+      last_login_time = #{lastLoginTime,jdbcType=BIGINT},
+      last_login_ip = #{lastLoginIp,jdbcType=VARCHAR},
+      token = #{token,jdbcType=VARCHAR},
+      token_expire_time = #{tokenExpireTime,jdbcType=BIGINT},
+      jpush_token = #{jpushToken,jdbcType=VARCHAR},
+      yx_token = #{yxToken,jdbcType=VARCHAR},
+      terminal = #{terminal,jdbcType=SMALLINT},
+      is_deleted = #{isDeleted,jdbcType=BIT},
+      need_push = #{needPush,jdbcType=BIT}
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
+
+  <select id="selectByUuid" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select count(user_id) from ucenter_user where uuid = #{uuid}
+  </select>
+
+  <select id="selectName" parameterType="java.lang.String" resultType="java.lang.String">
+    select nickname from ucenter_user where uuid = #{uuid}
+  </select>
+
+  <select id="selectUsersByUuid" resultType="com.zheng.user.dao.model.UcenterUser">
+    SELECT  user_id,nickname,avatar,uuid <if test="simpleLevel > 1">, phone, need_push, jpush_token,terminal,active</if>
+    FROM ucenter_user
+    WHERE uuid IN
+    <foreach item = "item" index = "index" collection = "list" open = "("
+             separator = "," close = ")">
+      #{item}
+    </foreach>
+    AND is_deleted = 0 AND terminal &gt; 0
+  </select>
+
+  <select id="selectFriendsByUuid" resultType="com.zheng.user.model.UcenterUserVO">
+    SELECT  u.user_id,u.nickname ,u.avatar,u.uuid,uur.alias <if test="simpleLevel > 1">, u.phone, u.need_push, u.jpush_token,u.terminal,u.active</if>
+    FROM ucenter_user u
+    left join ucenter_user_relation uur on u.uuid = uur.friend_uuid and uur.user_uuid = #{uuid}
+    WHERE u.uuid IN
+    <foreach item = "item" index = "index" collection = "list" open = "("
+             separator = "," close = ")">
+      #{item}
+    </foreach>
+    AND is_deleted = 0
+  </select>
+
+  <select id="selectByPhone" resultType="com.zheng.user.dao.model.UcenterUser">
+    select *
+    from ucenter_user
+    where phone = #{phone}
+  </select>
+
+  <select id="selectByToken" resultType="com.zheng.user.dao.model.UcenterUser">
+    select user_id, active, password,token_expire_time,uuid,nickname,realname,phone
+    from ucenter_user
+    where token = #{token}
+  </select>
+
+  <select id="selectAppDetail" resultType="map">
+    select user_id, active, uuid, token, yx_token,avatar, nickname,is_identity, realname,phone,sex,city_id,province_id,area
+    from ucenter_user
+    where user_id = #{userId}
+  </select>
+
+  <select id="selectBeanByUuid" parameterType="java.lang.String" resultType="com.zheng.user.dao.model.UcenterUser">
+    select
+    <include refid="Base_Column_List" />
+    from ucenter_user
+    where uuid = #{uuid}
+  </select>
+
+  <select id="selectByPhoneList" resultType="java.util.Map">
+    select uu.phone,uu.nickname,uu.realname,uu.uuid,uu.avatar,uu.is_identity,
+    ifnull(uur.status,3) as is_relation
+    from ucenter_user uu
+    left join ucenter_user_relation uur on uur.friend_uuid = uu.uuid
+    where uu.phone in
+    <foreach collection="phones" index="index" item="phone" open="(" separator="," close=")">
+      #{phone}
+    </foreach>
+    group by uu.uuid
+  </select>
+</mapper>

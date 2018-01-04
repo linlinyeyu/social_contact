@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zheng.message.dao.mapper.UcenterUserMessageMapper">
+  <resultMap id="BaseResultMap" type="com.zheng.message.dao.model.UcenterUserMessage">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="uuid" jdbcType="VARCHAR" property="uuid" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="message_id" jdbcType="INTEGER" property="messageId" />
+    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
+    <result column="is_read" jdbcType="BIT" property="isRead" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="read_time" jdbcType="BIGINT" property="readTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, uuid, user_id, message_id, is_deleted, is_read, create_time, read_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ucenter_user_message
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from ucenter_user_message
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zheng.message.dao.model.UcenterUserMessage">
+    insert into ucenter_user_message (id, uuid, user_id, 
+      message_id, is_deleted, is_read, 
+      create_time, read_time)
+    values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
+      #{messageId,jdbcType=INTEGER}, #{isDeleted,jdbcType=BIT}, #{isRead,jdbcType=BIT}, 
+      #{createTime,jdbcType=BIGINT}, #{readTime,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zheng.message.dao.model.UcenterUserMessage">
+    insert into ucenter_user_message
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="uuid != null">
+        uuid,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="messageId != null">
+        message_id,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
+      <if test="isRead != null">
+        is_read,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="readTime != null">
+        read_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="uuid != null">
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="messageId != null">
+        #{messageId,jdbcType=INTEGER},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=BIT},
+      </if>
+      <if test="isRead != null">
+        #{isRead,jdbcType=BIT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="readTime != null">
+        #{readTime,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zheng.message.dao.model.UcenterUserMessage">
+    update ucenter_user_message
+    <set>
+      <if test="uuid != null">
+        uuid = #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="messageId != null">
+        message_id = #{messageId,jdbcType=INTEGER},
+      </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
+      <if test="isRead != null">
+        is_read = #{isRead,jdbcType=BIT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="readTime != null">
+        read_time = #{readTime,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zheng.message.dao.model.UcenterUserMessage">
+    update ucenter_user_message
+    set uuid = #{uuid,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      message_id = #{messageId,jdbcType=INTEGER},
+      is_deleted = #{isDeleted,jdbcType=BIT},
+      is_read = #{isRead,jdbcType=BIT},
+      create_time = #{createTime,jdbcType=BIGINT},
+      read_time = #{readTime,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
+
+  <!-- 批量插入，此sql所有值都需手动设值 -->
+  <insert id="insertUserMessageList">
+    INSERT INTO ucenter_user_message (message_id, uuid, create_time, is_read, read_time, is_deleted)
+    VALUES
+    <foreach item="item" collection="list" index="index" separator=",">
+      (#{item.messageId}, #{item.uuid}, #{item.createTime}, #{item.isRead}, #{item.readTime},
+      #{item.isDeleted})
+    </foreach>
+  </insert>
+</mapper>

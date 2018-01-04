@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    <!--扫描注解-->
+    <context:component-scan base-package="com.zheng.neo4j"/>
+
+    <!-- ApplicationContext -->
+    <bean id="springContextUtil" class="com.zheng.neo4j.common.util.SpringContextUtil"></bean>
+
+    <context:property-placeholder location="neo4j-datasource.properties"></context:property-placeholder>
+    <!--datasource-->
+    <bean id="neo4jDataSource" class="org.apache.tomcat.jdbc.pool.DataSource">
+        <property name="driverClassName" value="${spring.datasource.neo4j.driver-class-name}"/>
+        <property name="username" value="${spring.datasource.neo4j.username}"/>
+        <property name="password" value="${spring.datasource.neo4j.password}"/>
+        <property name="url" value="${spring.datasource.neo4j.url}"/>
+    </bean>
+
+    <!--mybatis-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="neo4jDataSource"/>
+        <property name="typeAliasesPackage" value="${mybatis.typeAliasesPackage}"/>
+        <property name="mapperLocations" value="${mybatis.mapperLocations}"/>
+    </bean>
+    <!--扫描mapper包-->
+    <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.zheng.neo4j.dao.mapper"/>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+    </bean>
+
+    <!--初始化sqlsessionTemplate-->
+    <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg index="0" type="org.apache.ibatis.session.SqlSessionFactory" ref="sqlSessionFactory"/>
+    </bean>
+
+    <!--引入事务-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="neo4jDataSource"/>
+    </bean>
+
+    <!--启动注解事务-->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+
+</beans>

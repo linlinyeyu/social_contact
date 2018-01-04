@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zheng.user.dao.mapper.UcenterRelationTypeMapper">
+  <resultMap id="BaseResultMap" type="com.zheng.user.dao.model.UcenterRelationType">
+    <id column="relation_type" jdbcType="TINYINT" property="relationType" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="is_family" jdbcType="TINYINT" property="isFamily"/>
+    <result column="strength" jdbcType="TINYINT" property="strength"/>
+  </resultMap>
+  <sql id="Base_Column_List">
+    relation_type, name,is_family,strength
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Byte" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ucenter_relation_type
+    where relation_type = #{relationType,jdbcType=TINYINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Byte">
+    delete from ucenter_relation_type
+    where relation_type = #{relationType,jdbcType=TINYINT}
+  </delete>
+  <insert id="insert" parameterType="com.zheng.user.dao.model.UcenterRelationType">
+    insert into ucenter_relation_type (relation_type, name,is_family,strength)
+    values (#{relationType,jdbcType=TINYINT}, #{name,jdbcType=VARCHAR},#{isFamily,jdbcType=TINYINT},#{strength,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zheng.user.dao.model.UcenterRelationType">
+    insert into ucenter_relation_type
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="relationType != null">
+        relation_type,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="isFamily != null">
+        is_family,
+      </if>
+      <if test="strength != null">
+        strength,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="relationType != null">
+        #{relationType,jdbcType=TINYINT},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="isFamily != null">
+        #{isFamily,jdbcType=TINYINT},
+      </if>
+      <if test="strength != null">
+        #{strength,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zheng.user.dao.model.UcenterRelationType">
+    update ucenter_relation_type
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="isFamily != null">
+        is_family = #{isFamily,jdbcType=TINYINT},
+      </if>
+      <if test="strength != null">
+        strength = #{strength,jdbcType=TINYINT},
+      </if>
+    </set>
+    where relation_type = #{relationType,jdbcType=TINYINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zheng.user.dao.model.UcenterRelationType">
+    update ucenter_relation_type
+    set name = #{name,jdbcType=VARCHAR},
+    is_family = #{isFamily,jdbcType=TINYINT},
+    strength = #{strength,jdbcType=TINYINT}
+    where relation_type = #{relationType,jdbcType=TINYINT}
+  </update>
+  <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
+
+
+</mapper>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zheng.user.dao.mapper.UcenterGroupTempMapper">
+    <resultMap id="BaseResultMap" type="com.zheng.user.dao.model.UcenterGroupTemp">
+        <id column="group_temp_id" jdbcType="BIGINT" property="groupTempId" />
+        <result column="uuid" jdbcType="VARCHAR" property="uuid" />
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="geohash" jdbcType="VARCHAR" property="geohash"/>
+        <result column="date_add" jdbcType="BIGINT" property="dateAdd"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        group_temp_id,uuid,password,geohash,date_add
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from ucenter_group_temp
+        where group_temp_id = #{groupTempId,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from ucenter_group_temp
+        where group_temp_id = #{groupTempId,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.zheng.user.dao.model.UcenterGroupTemp">
+        insert into ucenter_group_temp (group_temp_id, uuid,password,geohash,date_add)
+        values (#{groupTempId,jdbcType=BIGINT}, #{uuid,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR},
+        #{geohash,jdbcType=VARCHAR},#{dateAdd,jdbcType=BIGINT})
+    </insert>
+    <insert id="insertSelective" parameterType="com.zheng.user.dao.model.UcenterGroupTemp">
+        insert ignore into ucenter_group_temp
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="groupTempId != null">
+                group_temp_id,
+            </if>
+            <if test="uuid != null">
+                uuid,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="geohash != null">
+                geohash,
+            </if>
+            <if test="dateAdd != null">
+                date_add
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="groupTempId != null">
+                #{groupTempId,jdbcType=BIGINT},
+            </if>
+            <if test="uuid != null">
+                #{uuid,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="geohash != null">
+                #{geohash,jdbcType=VARCHAR},
+            </if>
+            <if test="dateAdd != null">
+                #{dateAdd,jdbcType=BIGINT},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.zheng.user.dao.model.UcenterGroupTemp">
+        update ucenter_group_temp
+        <set>
+            <if test="uuid != null">
+                uuid = #{uuid,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="geohash != null">
+                geohash = #{geohash,jdbcType=VARCHAR},
+            </if>
+            <if test="dateAdd != null">
+                date_add = #{dateAdd,jdbcType=BIGINT}
+            </if>
+        </set>
+        where group_temp_id = #{groupTempId,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.zheng.user.dao.model.UcenterGroupTemp">
+        update ucenter_group_temp
+        set uuid = #{uuid,jdbcType=VARCHAR},
+        password = #{password,jdbcType=VARCHAR},
+        geohash = #{geohash,jdbcType=VARCHAR},
+        date_add = #{dateAdd,jdbcType=BIGINT}
+        where group_temp_id = #{groupTempId,jdbcType=INTEGER}
+    </update>
+
+    <select id="selectByPasswordAndGeo" parameterType="com.zheng.user.dao.model.UcenterGroupTemp" resultType="java.util.Map">
+        select
+        u.nickname,u.avatar
+        from ucenter_group_temp gt
+        inner join ucenter_user u on u.uuid = gt.uuid
+        where gt.password = #{password} and gt.geohash REGEXP concat('^',#{geohash})
+        union
+        select u.nickname,u.avatar
+        from ucenter_user_group uug
+        inner join ucenter_group_relation gr on gr.group_yx_id = uug.yx_tid
+        inner join ucenter_user u on u.uuid = gr.uuid
+        where uug.password = #{password} and uug.geohash REGEXP concat('^',#{geohash})
+    </select>
+
+    <select id="selectUserByPg" parameterType="com.zheng.user.dao.model.UcenterGroupTemp" resultType="java.lang.Integer">
+        select count(gr.uuid) from
+        ucenter_user_group ug
+        inner join ucenter_group_relation gr on gr.group_yx_id = ug.yx_tid
+        where ug.password = #{password} and ug.geohash REGEXP concat('^',#{geohash}) and gr.uuid = #{uuid}
+    </select>
+
+    <delete id="deleteByPug" parameterType="com.zheng.user.dao.model.UcenterGroupTemp">
+        delete from ucenter_group_temp
+        where uuid = #{uuid} and password = #{password} and geohash REGEXP concat('^',#{geohash})
+    </delete>
+    <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
+</mapper>
